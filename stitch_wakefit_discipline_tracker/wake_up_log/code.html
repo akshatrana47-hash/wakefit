@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Discipline - Wake-Up Log</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&amp;family=Metropolis:wght@600;700;800&amp;family=Geist:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#690005",
+                        "surface-container": "#122131",
+                        "on-background": "#d4e4fa",
+                        "surface-variant": "#273647",
+                        "on-secondary-container": "#b2b4c8",
+                        "secondary-container": "#434657",
+                        "secondary-fixed-dim": "#c3c5da",
+                        "tertiary-fixed-dim": "#c5c5d5",
+                        "error": "#ffb4ab",
+                        "outline-variant": "#3b4a45",
+                        "surface": "#051424",
+                        "outline": "#84948f",
+                        "inverse-primary": "#006b5a",
+                        "secondary": "#c3c5da",
+                        "on-primary-fixed-variant": "#005143",
+                        "on-tertiary-fixed-variant": "#444653",
+                        "on-secondary-fixed": "#181b2a",
+                        "surface-container-low": "#0d1c2d",
+                        "primary": "#46f1cf",
+                        "tertiary-fixed": "#e1e1f2",
+                        "surface-bright": "#2c3a4c",
+                        "tertiary": "#d7d7e7",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#d4e4fa",
+                        "on-tertiary": "#2e303c",
+                        "on-primary-container": "#005648",
+                        "primary-container": "#00d4b4",
+                        "tertiary-container": "#bbbbcb",
+                        "on-primary-fixed": "#00201a",
+                        "on-secondary-fixed-variant": "#434657",
+                        "secondary-fixed": "#e0e1f6",
+                        "surface-tint": "#27dfbe",
+                        "on-secondary": "#2d303f",
+                        "on-tertiary-container": "#494b58",
+                        "on-error-container": "#ffdad6",
+                        "on-primary": "#00382e",
+                        "surface-container-high": "#1c2b3c",
+                        "on-surface": "#d4e4fa",
+                        "primary-fixed": "#55fcda",
+                        "surface-container-lowest": "#010f1f",
+                        "surface-container-highest": "#273647",
+                        "primary-fixed-dim": "#27dfbe",
+                        "background": "#051424",
+                        "on-tertiary-fixed": "#191b26",
+                        "surface-dim": "#051424",
+                        "on-surface-variant": "#bacac4",
+                        "inverse-on-surface": "#233143"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "sm": "12px",
+                        "margin-mobile": "20px",
+                        "base": "8px",
+                        "gutter": "16px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "xl": "40px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Metropolis", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "headline-lg-mobile": ["Metropolis", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"],
+                        "label-sm": ["Geist", "monospace"],
+                        "label-md": ["Geist", "monospace"],
+                        "headline-md": ["Metropolis", "sans-serif"],
+                        "headline-lg": ["Metropolis", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0D0F1A; }
+        .bg-level-1 { background-color: #1C1F2E; }
+        .border-tactical { border-color: #2D324A; border-width: 1px; }
+        
+        /* Time Picker Styling */
+        .picker-container {
+            height: 150px;
+            overflow: hidden;
+            position: relative;
+            mask-image: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
+        }
+        .picker-column {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            scrollbar-width: none; /* Firefox */
+        }
+        .picker-column::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        .picker-item {
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            scroll-snap-align: center;
+            font-family: 'Geist', monospace;
+            font-size: 24px;
+            color: #bacac4; /* on-surface-variant */
+            transition: color 0.2s, font-size 0.2s;
+        }
+        .picker-item.active {
+            color: #46f1cf; /* primary */
+            font-size: 32px;
+            font-weight: 600;
+        }
+        .selection-overlay {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 50px;
+            transform: translateY(-50%);
+            border-top: 1px solid #2D324A;
+            border-bottom: 1px solid #2D324A;
+            pointer-events: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface antialiased flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="w-full sticky top-0 z-40 border-b border-outline-variant dark:border-outline-variant bg-surface dark:bg-surface transition-opacity duration-200">
+<div class="flex justify-between items-center px-margin-mobile h-16 w-full">
+<button aria-label="Go back" class="text-on-surface-variant hover:opacity-80 p-2 flex items-center justify-center rounded-full">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface tracking-tight text-center flex-1">Discipline</h1>
+<div class="w-10"></div> <!-- Placeholder to balance header -->
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col px-margin-mobile py-lg pb-32">
+<div class="mb-lg text-center">
+<h2 class="font-headline-md text-headline-md text-on-surface">Log Your Wake-Up</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">Record today's discipline.</p>
+</div>
+<!-- Large Time Display (Interactive Anchor) -->
+<div class="bg-level-1 border-tactical rounded-xl p-lg flex flex-col items-center justify-center mb-lg relative overflow-hidden group cursor-pointer transition-colors hover:border-primary">
+<div class="absolute inset-0 bg-primary opacity-0 group-active:opacity-5 transition-opacity"></div>
+<div class="font-display-lg text-display-lg text-primary tracking-tighter" style="font-variant-numeric: tabular-nums;">
+                06:42
+            </div>
+<div class="font-label-md text-label-md text-on-surface-variant mt-xs uppercase tracking-widest">
+                AM
+            </div>
+</div>
+<!-- Simulated iOS Time Picker -->
+<div class="bg-surface border-tactical rounded-xl mb-lg relative">
+<div class="selection-overlay"></div>
+<div class="flex picker-container">
+<!-- Hours Column -->
+<div class="flex-1 picker-column" id="hours-picker">
+<div class="picker-item">04</div>
+<div class="picker-item">05</div>
+<div class="picker-item active">06</div>
+<div class="picker-item">07</div>
+<div class="picker-item">08</div>
+</div>
+<!-- Separator -->
+<div class="flex items-center justify-center font-display-lg text-display-lg text-on-surface-variant pb-2">
+                    :
+                </div>
+<!-- Minutes Column -->
+<div class="flex-1 picker-column" id="minutes-picker">
+<div class="picker-item">40</div>
+<div class="picker-item">41</div>
+<div class="picker-item active">42</div>
+<div class="picker-item">43</div>
+<div class="picker-item">44</div>
+</div>
+<!-- AM/PM Column -->
+<div class="flex-1 picker-column" id="ampm-picker">
+<div class="picker-item"></div>
+<div class="picker-item active">AM</div>
+<div class="picker-item">PM</div>
+<div class="picker-item"></div>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col gap-md mb-xl">
+<button class="w-full bg-primary text-[#000000] font-label-md text-label-md py-sm rounded-lg uppercase tracking-wider transition-transform active:scale-95 shadow-[0_0_15px_rgba(70,241,207,0.2)]">
+                Save Entry
+            </button>
+<button class="w-full bg-transparent border border-primary text-primary font-label-md text-label-md py-sm rounded-lg uppercase tracking-wider transition-transform active:scale-95">
+                Use Current Time
+            </button>
+</div>
+<!-- History Section -->
+<div>
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-md border-b border-tactical pb-xs">Recent Logs</h3>
+<div class="flex flex-col gap-sm">
+<!-- History Item 1 -->
+<div class="bg-level-1 border-tactical rounded-lg p-sm flex justify-between items-center">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[18px]">check</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface">Yesterday</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Oct 26</div>
+</div>
+</div>
+<div class="font-label-md text-label-md text-primary font-mono">05:30 AM</div>
+</div>
+<!-- History Item 2 -->
+<div class="bg-level-1 border-tactical rounded-lg p-sm flex justify-between items-center">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[18px]">check</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface">Friday</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Oct 25</div>
+</div>
+</div>
+<div class="font-label-md text-label-md text-primary font-mono">06:00 AM</div>
+</div>
+<!-- History Item 3 -->
+<div class="bg-level-1 border-tactical rounded-lg p-sm flex justify-between items-center">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-on-surface-variant/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">close</span>
+</div>
+<div>
+<div class="font-label-md text-label-md text-on-surface">Thursday</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Oct 24</div>
+</div>
+</div>
+<div class="font-label-md text-label-md text-on-surface-variant font-mono line-through">08:15 AM</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Suppressed due to Task-Focused/Linear intent - "Log Your Wake-Up" is an action screen, not a top-level destination) -->
+<!-- The user is in a focused journey to log time. Nav shell is intentionally omitted as per the Semantic Shell Mandate. -->
+</body></html>

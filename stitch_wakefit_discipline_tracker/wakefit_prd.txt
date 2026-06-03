@@ -1,0 +1,39 @@
+# WakeFit Discipline Tracker - Product Requirements Document
+
+## Overview
+WakeFit is a personal discipline and health tracking app designed for iOS. The tone is motivational, clean, and focused—like a strict personal coach in your pocket.
+
+## Target Device
+iPhone 15 Pro to iPhone 17 Pro Max (Portrait)
+
+## Visual Identity
+- **Mode:** Dark Mode (Primary)
+- **Base Background:** #0D0F1A
+- **Surface/Cards:** #1C1F2E
+- **Primary Accent:** #00D4B4 (Electric Teal)
+- **Warning:** #F5A623 (Amber)
+- **Danger:** #FF5C5C (Coral Red)
+- **Success:** #00C896 (Teal Green)
+- **Typography:** SF Pro Display / SF Pro Text
+- **Border Radius:** 16px
+
+## Screen List
+1. **Login Screen:** Minimal, "Your discipline starts here", Google Sign-in.
+2. **Profile Setup:** Name, weight (start/target), height.
+3. **Dashboard (Home):** Discipline score ring, Wake-up log, Food summary, Calories, Weight trend, Streak.
+4. **Wake-Up Log:** Time picker wheel, history list.
+5. **Food Log:** 3 time blocks (Morning, Afternoon, Evening), expandable cards.
+6. **Add Food Item:** Bottom sheet, voice/microphone input, transcription.
+7. **Sleep Log:** "Did you sleep on time?", binary choice, notes, 7-day history.
+8. **AI Analysis:** Calories, Protein, Discipline status, Coach Diagnosis, Advice.
+9. **Weight Tracking:** Stats, line graph with target line, log button.
+10. **Notification Overlay:** Calorie warning, motivational quote.
+11. **Search:** Segmented controls, list results.
+12. **Profile/Settings:** User stats, toggles, sign out.
+
+## Key Components
+- Discipline score ring (Circular progress)
+- Food time block cards
+- Stat cards
+- Bottom sheet modal
+- Streak counter (Flame)

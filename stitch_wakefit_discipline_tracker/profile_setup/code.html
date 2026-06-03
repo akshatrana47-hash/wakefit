@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Discipline - Profile Setup</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Metropolis:wght@600;700;800&amp;family=Geist:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#690005",
+                        "surface-container": "#122131",
+                        "on-background": "#d4e4fa",
+                        "surface-variant": "#273647",
+                        "on-secondary-container": "#b2b4c8",
+                        "secondary-container": "#434657",
+                        "secondary-fixed-dim": "#c3c5da",
+                        "tertiary-fixed-dim": "#c5c5d5",
+                        "error": "#ffb4ab",
+                        "outline-variant": "#3b4a45",
+                        "surface": "#051424",
+                        "outline": "#84948f",
+                        "inverse-primary": "#006b5a",
+                        "secondary": "#c3c5da",
+                        "on-primary-fixed-variant": "#005143",
+                        "on-tertiary-fixed-variant": "#444653",
+                        "on-secondary-fixed": "#181b2a",
+                        "surface-container-low": "#0d1c2d",
+                        "primary": "#46f1cf",
+                        "tertiary-fixed": "#e1e1f2",
+                        "surface-bright": "#2c3a4c",
+                        "tertiary": "#d7d7e7",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#d4e4fa",
+                        "on-tertiary": "#2e303c",
+                        "on-primary-container": "#005648",
+                        "primary-container": "#00d4b4",
+                        "tertiary-container": "#bbbbcb",
+                        "on-primary-fixed": "#00201a",
+                        "on-secondary-fixed-variant": "#434657",
+                        "secondary-fixed": "#e0e1f6",
+                        "surface-tint": "#27dfbe",
+                        "on-secondary": "#2d303f",
+                        "on-tertiary-container": "#494b58",
+                        "on-error-container": "#ffdad6",
+                        "on-primary": "#00382e",
+                        "surface-container-high": "#1c2b3c",
+                        "on-surface": "#d4e4fa",
+                        "primary-fixed": "#55fcda",
+                        "surface-container-lowest": "#010f1f",
+                        "surface-container-highest": "#273647",
+                        "primary-fixed-dim": "#27dfbe",
+                        "background": "#051424",
+                        "on-tertiary-fixed": "#191b26",
+                        "surface-dim": "#051424",
+                        "on-surface-variant": "#bacac4",
+                        "inverse-on-surface": "#233143"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "sm": "12px",
+                        "margin-mobile": "20px",
+                        "base": "8px",
+                        "gutter": "16px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "xl": "40px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["metropolis"],
+                        "body-lg": ["inter"],
+                        "headline-lg-mobile": ["metropolis"],
+                        "body-md": ["inter"],
+                        "label-sm": ["geist"],
+                        "label-md": ["geist"],
+                        "headline-md": ["metropolis"],
+                        "headline-lg": ["metropolis"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0D0F1A; }
+        .input-border-focus:focus-within { border-color: #46f1cf; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface antialiased font-body-md min-h-screen flex flex-col items-center justify-center p-margin-mobile">
+<!-- Suppressed Shell: Linear/Transactional intent. No TopAppBar or BottomNavBar. -->
+<main class="w-full max-w-[400px] flex flex-col gap-lg">
+<!-- Progress Indicator -->
+<div class="flex items-center gap-base mb-xs">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-widest">Step 1 of 1</span>
+<div class="flex-1 h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-full rounded-full"></div>
+</div>
+</div>
+<!-- Header -->
+<div class="mb-sm">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface mb-xs">Set your baseline</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Enter your physical metrics to calibrate your discipline protocol.</p>
+</div>
+<!-- Form Fields -->
+<form class="flex flex-col gap-md">
+<!-- Full Name -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider pl-1" for="fullName">Full Name</label>
+<div class="bg-[#1C1F2E] border border-[#2D324A] rounded-lg p-sm flex items-center input-border-focus transition-colors duration-200">
+<span class="material-symbols-outlined text-on-surface-variant mr-sm" data-icon="person">person</span>
+<input class="bg-transparent border-none w-full text-on-surface font-body-md focus:outline-none focus:ring-0 placeholder-surface-variant" id="fullName" placeholder="John Doe" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<!-- Starting Weight -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider pl-1" for="startWeight">Starting Wgt (kg)</label>
+<div class="bg-[#1C1F2E] border border-[#2D324A] rounded-lg p-sm flex items-center input-border-focus transition-colors duration-200">
+<span class="material-symbols-outlined text-on-surface-variant mr-sm" data-icon="monitor_weight">monitor_weight</span>
+<input class="bg-transparent border-none w-full text-on-surface font-body-md focus:outline-none focus:ring-0 placeholder-surface-variant text-right" id="startWeight" placeholder="85" type="number"/>
+</div>
+</div>
+<!-- Target Weight -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider pl-1" for="targetWeight">Target Wgt (kg)</label>
+<div class="bg-[#1C1F2E] border border-[#2D324A] rounded-lg p-sm flex items-center input-border-focus transition-colors duration-200">
+<span class="material-symbols-outlined text-on-surface-variant mr-sm" data-icon="flag">flag</span>
+<input class="bg-transparent border-none w-full text-on-surface font-body-md focus:outline-none focus:ring-0 placeholder-surface-variant text-right" id="targetWeight" placeholder="75" type="number"/>
+</div>
+</div>
+</div>
+<!-- Height -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider pl-1" for="height">Height (cm)</label>
+<div class="bg-[#1C1F2E] border border-[#2D324A] rounded-lg p-sm flex items-center input-border-focus transition-colors duration-200">
+<span class="material-symbols-outlined text-on-surface-variant mr-sm" data-icon="height">height</span>
+<input class="bg-transparent border-none w-full text-on-surface font-body-md focus:outline-none focus:ring-0 placeholder-surface-variant text-right" id="height" placeholder="180" type="number"/>
+</div>
+</div>
+</form>
+<!-- CTA -->
+<div class="mt-lg">
+<button class="w-full bg-primary-container text-[#000000] font-headline-md text-headline-md py-md rounded-[16px] hover:bg-primary transition-colors duration-200 flex justify-center items-center gap-sm active:scale-95 shadow-[0_0_15px_rgba(0,212,180,0.1)]">
+                Let's Begin
+                <span class="material-symbols-outlined text-[#000000]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</main>
+</body></html>

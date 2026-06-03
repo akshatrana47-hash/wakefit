@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notification Overlay</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=geist:wght@100..900&amp;family=inter:wght@100..900&amp;family=metropolis:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<!-- Assuming Metropolis and Geist are available locally or via another font service for the specific brand implementation. 
+         Falling back to sans/mono for rendering if missing, but using the mandated classes. -->
+<style>
+        @font-face {
+            font-family: 'metropolis';
+            src: local('Helvetica Neue'), local('Arial');
+            font-weight: normal;
+        }
+        @font-face {
+            font-family: 'geist';
+            src: local('Courier New'), monospace;
+            font-weight: normal;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error": "#690005",
+                        "surface-container": "#122131",
+                        "on-background": "#d4e4fa",
+                        "surface-variant": "#273647",
+                        "on-secondary-container": "#b2b4c8",
+                        "secondary-container": "#434657",
+                        "secondary-fixed-dim": "#c3c5da",
+                        "tertiary-fixed-dim": "#c5c5d5",
+                        "error": "#ffb4ab",
+                        "outline-variant": "#3b4a45",
+                        "surface": "#051424",
+                        "outline": "#84948f",
+                        "inverse-primary": "#006b5a",
+                        "secondary": "#c3c5da",
+                        "on-primary-fixed-variant": "#005143",
+                        "on-tertiary-fixed-variant": "#444653",
+                        "on-secondary-fixed": "#181b2a",
+                        "surface-container-low": "#0d1c2d",
+                        "primary": "#46f1cf",
+                        "tertiary-fixed": "#e1e1f2",
+                        "surface-bright": "#2c3a4c",
+                        "tertiary": "#d7d7e7",
+                        "error-container": "#93000a",
+                        "inverse-surface": "#d4e4fa",
+                        "on-tertiary": "#2e303c",
+                        "on-primary-container": "#005648",
+                        "primary-container": "#00d4b4",
+                        "tertiary-container": "#bbbbcb",
+                        "on-primary-fixed": "#00201a",
+                        "on-secondary-fixed-variant": "#434657",
+                        "secondary-fixed": "#e0e1f6",
+                        "surface-tint": "#27dfbe",
+                        "on-secondary": "#2d303f",
+                        "on-tertiary-container": "#494b58",
+                        "on-error-container": "#ffdad6",
+                        "on-primary": "#00382e",
+                        "surface-container-high": "#1c2b3c",
+                        "on-surface": "#d4e4fa",
+                        "primary-fixed": "#55fcda",
+                        "surface-container-lowest": "#010f1f",
+                        "surface-container-highest": "#273647",
+                        "primary-fixed-dim": "#27dfbe",
+                        "background": "#051424",
+                        "on-tertiary-fixed": "#191b26",
+                        "surface-dim": "#051424",
+                        "on-surface-variant": "#bacac4",
+                        "inverse-on-surface": "#233143"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "sm": "12px",
+                        "margin-mobile": "20px",
+                        "base": "8px",
+                        "gutter": "16px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "xl": "40px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["metropolis"],
+                        "body-lg": ["inter"],
+                        "headline-lg-mobile": ["metropolis"],
+                        "body-md": ["inter"],
+                        "label-sm": ["geist"],
+                        "label-md": ["geist"],
+                        "headline-md": ["metropolis"],
+                        "headline-lg": ["metropolis"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-lowest text-on-surface font-body-md antialiased min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+<!-- Ambient Background Effect for Overlay Depth -->
+<div class="absolute inset-0 bg-gradient-to-b from-surface/50 to-surface-container-lowest pointer-events-none z-0"></div>
+<!-- Main Content Canvas (Focused Journey - Navigation Suppressed) -->
+<main class="w-full max-w-md px-margin-mobile z-10 flex flex-col items-center text-center">
+<!-- Warning Icon -->
+<div class="mb-lg w-24 h-24 rounded-full border border-primary/20 bg-surface flex items-center justify-center shadow-[0_0_40px_rgba(70,241,207,0.1)]">
+<span class="material-symbols-outlined text-[48px] text-primary" style="font-variation-settings: 'FILL' 1;">
+                health_metrics
+            </span>
+</div>
+<!-- Headline & Subtitle -->
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-sm tracking-tight">
+            Stay Controlled
+        </h1>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xl max-w-[280px]">
+            You have 2 hours left before your evening window. Maintain discipline.
+        </p>
+<!-- Tactical Data Box -->
+<div class="w-full bg-surface border border-outline-variant rounded-lg p-lg mb-xl flex flex-col items-center justify-center relative overflow-hidden">
+<!-- Subtle accent bar -->
+<div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-base">Target Objective</span>
+<div class="font-headline-md text-headline-md text-primary flex items-baseline gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Under</span>
+                700 <span class="font-label-sm text-label-sm text-on-surface-variant uppercase">kcal</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">before 5 PM</span>
+</div>
+<!-- Primary Action -->
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md uppercase tracking-wider py-md rounded-lg hover:brightness-110 active:scale-[0.98] transition-all duration-200 border border-transparent focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-surface-container-lowest">
+            Got it
+        </button>
+</main>
+<!-- Footer Quote -->
+<footer class="absolute bottom-margin-mobile w-full text-center px-margin-mobile z-10">
+<p class="font-label-sm text-label-sm text-on-surface-variant/60 italic">
+            "First we make our habits, then our habits make us."
+        </p>
+</footer>
+</body></html>

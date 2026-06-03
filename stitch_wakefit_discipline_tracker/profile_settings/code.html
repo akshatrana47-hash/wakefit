@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Profile Settings - Stoic Discipline</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error": "#690005",
+                    "surface-container": "#122131",
+                    "on-background": "#d4e4fa",
+                    "surface-variant": "#273647",
+                    "on-secondary-container": "#b2b4c8",
+                    "secondary-container": "#434657",
+                    "secondary-fixed-dim": "#c3c5da",
+                    "tertiary-fixed-dim": "#c5c5d5",
+                    "error": "#ffb4ab",
+                    "outline-variant": "#3b4a45",
+                    "surface": "#051424",
+                    "outline": "#84948f",
+                    "inverse-primary": "#006b5a",
+                    "secondary": "#c3c5da",
+                    "on-primary-fixed-variant": "#005143",
+                    "on-tertiary-fixed-variant": "#444653",
+                    "on-secondary-fixed": "#181b2a",
+                    "surface-container-low": "#0d1c2d",
+                    "primary": "#46f1cf",
+                    "tertiary-fixed": "#e1e1f2",
+                    "surface-bright": "#2c3a4c",
+                    "tertiary": "#d7d7e7",
+                    "error-container": "#93000a",
+                    "inverse-surface": "#d4e4fa",
+                    "on-tertiary": "#2e303c",
+                    "on-primary-container": "#005648",
+                    "primary-container": "#00d4b4",
+                    "tertiary-container": "#bbbbcb",
+                    "on-primary-fixed": "#00201a",
+                    "on-secondary-fixed-variant": "#434657",
+                    "secondary-fixed": "#e0e1f6",
+                    "surface-tint": "#27dfbe",
+                    "on-secondary": "#2d303f",
+                    "on-tertiary-container": "#494b58",
+                    "on-error-container": "#ffdad6",
+                    "on-primary": "#00382e",
+                    "surface-container-high": "#1c2b3c",
+                    "on-surface": "#d4e4fa",
+                    "primary-fixed": "#55fcda",
+                    "surface-container-lowest": "#010f1f",
+                    "surface-container-highest": "#273647",
+                    "primary-fixed-dim": "#27dfbe",
+                    "background": "#051424",
+                    "on-tertiary-fixed": "#191b26",
+                    "surface-dim": "#051424",
+                    "on-surface-variant": "#bacac4",
+                    "inverse-on-surface": "#233143"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "64px",
+                    "sm": "12px",
+                    "margin-mobile": "20px",
+                    "base": "8px",
+                    "gutter": "16px",
+                    "md": "16px",
+                    "xs": "4px",
+                    "xl": "40px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "display-lg": ["metropolis", "sans-serif"],
+                    "body-lg": ["Inter", "sans-serif"],
+                    "headline-lg-mobile": ["metropolis", "sans-serif"],
+                    "body-md": ["Inter", "sans-serif"],
+                    "label-sm": ["Geist", "monospace"],
+                    "label-md": ["Geist", "monospace"],
+                    "headline-md": ["metropolis", "sans-serif"],
+                    "headline-lg": ["metropolis", "sans-serif"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        /* Base styles for missing fonts to fallback gracefully */
+        @font-face {
+            font-family: 'metropolis';
+            src: local('Arial'); /* Fallback */
+            font-weight: bold;
+        }
+        body {
+            background-color: #051424; /* Fallback */
+            color: #d4e4fa; /* Fallback */
+        }
+        /* Custom scrollbar for tactical feel */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #273647;
+            border-radius: 4px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased min-h-screen flex justify-center">
+<!-- Mobile Container (Max width for tactical centered focus on larger screens) -->
+<div class="w-full max-w-md bg-background min-h-screen flex flex-col relative border-x border-outline-variant/30">
+<!-- TopAppBar (Task-Focused / Settings variant) -->
+<header class="flex justify-between items-center px-margin-mobile h-16 w-full sticky top-0 z-40 bg-surface/95 backdrop-blur-sm border-b border-outline-variant">
+<button aria-label="Go back" class="text-on-surface-variant hover:text-primary transition-colors duration-200 p-xs -ml-xs">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Profile</h1>
+<div class="w-8"></div> <!-- Spacer to balance flex-between -->
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col gap-xl px-margin-mobile py-lg pb-xl">
+<!-- Avatar & Identity Section -->
+<section class="flex flex-col items-center gap-md">
+<div class="relative group cursor-pointer">
+<div class="w-24 h-24 rounded-full bg-primary flex items-center justify-center border-4 border-background shadow-[0_0_0_1px_rgba(70,241,207,0.3)] group-hover:shadow-[0_0_0_2px_rgba(70,241,207,0.8)] transition-all duration-300">
+<span class="font-display-lg text-display-lg text-on-primary">JD</span>
+</div>
+<div class="absolute bottom-0 right-0 bg-surface-variant border border-outline-variant rounded-full p-xs text-on-surface">
+<span class="material-symbols-outlined text-[16px]" data-icon="edit">edit</span>
+</div>
+</div>
+<div class="text-center">
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">John Doe</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Initiate Phase</p>
+</div>
+</section>
+<!-- Stats Row (Bento Grid Style) -->
+<section class="grid grid-cols-3 gap-sm">
+<!-- Stat: Start Date -->
+<div class="bg-surface-variant border border-outline-variant rounded-lg p-sm flex flex-col items-center justify-center gap-xs relative overflow-hidden group">
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] mb-xs opacity-70" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-md text-label-md text-primary tracking-widest">12.04</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase text-center leading-tight">Start Date</span>
+</div>
+<!-- Stat: Days Active -->
+<div class="bg-surface-variant border border-outline-variant rounded-lg p-sm flex flex-col items-center justify-center gap-xs relative overflow-hidden group">
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] mb-xs opacity-70" data-icon="local_fire_department">local_fire_department</span>
+<span class="font-label-md text-label-md text-primary tracking-widest">48</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase text-center leading-tight">Days Active</span>
+</div>
+<!-- Stat: Total Entries -->
+<div class="bg-surface-variant border border-outline-variant rounded-lg p-sm flex flex-col items-center justify-center gap-xs relative overflow-hidden group">
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] mb-xs opacity-70" data-icon="checklist">checklist</span>
+<span class="font-label-md text-label-md text-primary tracking-widest">142</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase text-center leading-tight">Total Entries</span>
+</div>
+</section>
+<!-- Settings Modules -->
+<section class="flex flex-col gap-lg">
+<!-- Group: Preferences -->
+<div class="flex flex-col gap-xs">
+<h3 class="font-label-sm text-label-sm text-outline uppercase tracking-widest pl-xs">Preferences</h3>
+<div class="bg-surface-container-low border border-outline-variant rounded-xl overflow-hidden flex flex-col">
+<!-- Item: Notifications (Toggle) -->
+<div class="flex justify-between items-center p-md border-b border-outline-variant/50 hover:bg-surface-variant/50 transition-colors">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+<span class="font-body-md text-body-md text-on-surface">Push Notifications</span>
+</div>
+<label class="relative flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<!-- Tactical Checkbox instead of soft toggle -->
+<div class="w-6 h-6 border-2 border-outline-variant rounded bg-surface peer-checked:bg-primary peer-checked:border-primary flex items-center justify-center transition-all duration-200">
+<span class="material-symbols-outlined text-[18px] text-background opacity-0 peer-checked:opacity-100 scale-50 peer-checked:scale-100 transition-all duration-200 font-bold" data-icon="check">check</span>
+</div>
+</label>
+</div>
+<!-- Item: Face ID (Toggle) -->
+<div class="flex justify-between items-center p-md border-b border-outline-variant/50 hover:bg-surface-variant/50 transition-colors">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="face">face</span>
+<span class="font-body-md text-body-md text-on-surface">Face ID Security</span>
+</div>
+<label class="relative flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-6 h-6 border-2 border-outline-variant rounded bg-surface peer-checked:bg-primary peer-checked:border-primary flex items-center justify-center transition-all duration-200">
+<span class="material-symbols-outlined text-[18px] text-background opacity-0 peer-checked:opacity-100 scale-50 peer-checked:scale-100 transition-all duration-200 font-bold" data-icon="check">check</span>
+</div>
+</label>
+</div>
+<!-- Item: Target Weight (Editable) -->
+<button class="w-full flex justify-between items-center p-md hover:bg-surface-variant/50 transition-colors group text-left">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="monitor_weight">monitor_weight</span>
+<span class="font-body-md text-body-md text-on-surface">Target Weight</span>
+</div>
+<div class="flex items-center gap-sm">
+<span class="font-label-md text-label-md text-primary bg-primary/10 px-sm py-xs rounded">75.0 kg</span>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors text-[20px]" data-icon="chevron_right">chevron_right</span>
+</div>
+</button>
+</div>
+</div>
+<!-- Group: Data & Account -->
+<div class="flex flex-col gap-xs">
+<h3 class="font-label-sm text-label-sm text-outline uppercase tracking-widest pl-xs">Data &amp; Control</h3>
+<div class="bg-surface-container-low border border-outline-variant rounded-xl overflow-hidden flex flex-col">
+<!-- Item: Export Data -->
+<button class="w-full flex justify-between items-center p-md border-b border-outline-variant/50 hover:bg-surface-variant/50 transition-colors group text-left">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="download">download</span>
+<span class="font-body-md text-body-md text-on-surface">Export Protocol Data</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors text-[20px]" data-icon="chevron_right">chevron_right</span>
+</button>
+<!-- Item: Sign Out -->
+<button class="w-full flex justify-between items-center p-md hover:bg-error/10 transition-colors group text-left">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-error" data-icon="logout">logout</span>
+<span class="font-body-md text-body-md text-error font-medium">Sign Out</span>
+</div>
+</button>
+</div>
+</div>
+</section>
+<!-- Branding Footer / Version -->
+<div class="mt-auto pt-xl flex justify-center pb-md">
+<p class="font-label-sm text-label-sm text-outline-variant uppercase tracking-[0.2em]">Protocol V.1.0.4</p>
+</div>
+</main>
+</div>
+</body></html>
