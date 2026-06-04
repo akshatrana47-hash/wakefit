@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import GoogleSignIn
 
 @main
 struct WakeFitApp: App {
@@ -39,10 +40,16 @@ struct WakeFitApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
+                // Global background that fills entire screen
+                Color(red: 0.02, green: 0.08, blue: 0.14)
+                    .ignoresSafeArea(.all)
+
                 if showSplash {
                     // Show splash screen first
-                    SplashView()
-                        .transition(.opacity)
+                    SplashView {
+                        showSplash = false
+                    }
+                    .transition(.opacity)
                 } else {
                     // Show main app after splash
                     AuthenticatedRootView(viewModel: authViewModel)
@@ -50,11 +57,12 @@ struct WakeFitApp: App {
                 }
             }
             .animation(.easeInOut(duration: 0.5), value: showSplash)
-            .onAppear {
-                // Hide splash screen after 2.5 seconds
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-                    showSplash = false
-                }
+            .preferredColorScheme(.dark)
+            .ignoresSafeArea(.all)
+            .toolbarBackground(.hidden, for: .navigationBar)
+            .onOpenURL { url in
+                // Handle Google Sign-In URL callback
+                GIDSignIn.sharedInstance.handle(url)
             }
         }
         .modelContainer(sharedModelContainer)

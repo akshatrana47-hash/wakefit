@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string>Akshat.WakeFit</string>
+	<key>CFBundleName</key>
+	<string>WakeFit</string>
+	<key>CFBundleDisplayName</key>
+	<string>WakeFit</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>CFBundleExecutable</key>
+	<string>WakeFit</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>GIDClientID</key>
+	<string>215587238352-3o5nulv8nnor1rg2f69lm0a053ltlpnd.apps.googleusercontent.com</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.215587238352-3o5nulv8nnor1rg2f69lm0a053ltlpnd</string>
+			</array>
+		</dict>
+	</array>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>WakeFit uses your microphone to log food entries by voice.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>WakeFit uses speech recognition to convert your voice into food log entries.</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UILaunchScreen</key>
+	<dict/>
+</dict>
+</plist>

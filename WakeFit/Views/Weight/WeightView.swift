@@ -50,39 +50,28 @@ struct WeightView: View {
 
     var body: some View {
         ZStack {
-            AppColors.bgBase
-                .ignoresSafeArea()
+            Color(AppColors.bgBase)
+                .ignoresSafeArea(.all)
 
             ScrollView {
                 VStack(spacing: 24) {
-                    // Header
+                    // Back Button
                     HStack {
                         Button {
                             dismiss()
                         } label: {
-                            Image(systemName: "person.circle.fill")
-                                .font(.system(size: 32))
-                                .foregroundStyle(AppColors.textMuted)
+                            HStack(spacing: 6) {
+                                Image(systemName: "chevron.left")
+                                    .font(.system(size: 16, weight: .semibold))
+                                Text("Back")
+                                    .font(.system(size: 16, weight: .semibold))
+                            }
+                            .foregroundStyle(AppColors.accentTeal)
                         }
-
                         Spacer()
-
-                        Text("Discipline")
-                            .font(.system(size: 20, weight: .semibold))
-                            .foregroundStyle(AppColors.textPrimary)
-
-                        Spacer()
-
-                        Button {
-                            // Settings
-                        } label: {
-                            Image(systemName: "gearshape.fill")
-                                .font(.system(size: 24))
-                                .foregroundStyle(AppColors.accentTeal)
-                        }
                     }
                     .padding(.horizontal, 20)
-                    .padding(.top, 12)
+                    .padding(.top, 16)
 
                     // Title
                     VStack(alignment: .leading, spacing: 8) {
@@ -101,19 +90,19 @@ struct WeightView: View {
                     HStack(spacing: 12) {
                         StatCard(
                             label: "STARTING",
-                            value: startingWeight != nil ? String(format: "%.1f lbs", startingWeight! * 2.20462) : "—",
+                            value: startingWeight != nil ? String(format: "%.1f kg", startingWeight!) : "—",
                             isHighlighted: false
                         )
 
                         StatCard(
                             label: "CURRENT",
-                            value: currentWeight != nil ? String(format: "%.1f lbs", currentWeight! * 2.20462) : "—",
+                            value: currentWeight != nil ? String(format: "%.1f kg", currentWeight!) : "—",
                             isHighlighted: true
                         )
 
                         StatCard(
-                            label: "TOTAL\nCHANGE",
-                            value: totalChange != nil ? String(format: "%.1f lbs", totalChange! * 2.20462) : "—",
+                            label: "CHANGE",
+                            value: totalChange != nil ? String(format: "%.1f kg", totalChange!) : "—",
                             isHighlighted: false,
                             changeColor: totalChange != nil ? (totalChange! < 0 ? AppColors.success : AppColors.danger) : nil
                         )
@@ -124,7 +113,7 @@ struct WeightView: View {
                     if !weightEntries.isEmpty {
                         VStack(alignment: .leading, spacing: 16) {
                             HStack {
-                                Text("LBS")
+                                Text("KG")
                                     .font(.system(size: 12, weight: .semibold))
                                     .foregroundStyle(AppColors.textMuted)
                                     .tracking(0.08 * 12)
@@ -150,6 +139,20 @@ struct WeightView: View {
                             RoundedRectangle(cornerRadius: 16)
                                 .stroke(AppColors.cardBorder, lineWidth: 1)
                         )
+                        .padding(.horizontal, 20)
+                    } else {
+                        // Empty state
+                        VStack(spacing: 16) {
+                            Image(systemName: "chart.line.uptrend.xyaxis")
+                                .font(.system(size: 48))
+                                .foregroundStyle(AppColors.textMuted)
+
+                            Text("No weight entries yet. Log your first weight above.")
+                                .font(.system(size: 16))
+                                .foregroundStyle(AppColors.textSecondary)
+                                .multilineTextAlignment(.center)
+                        }
+                        .padding(40)
                         .padding(.horizontal, 20)
                     }
 
@@ -183,15 +186,16 @@ struct WeightView: View {
                 }
             )
         }
+        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
     }
 
     // MARK: - Functions
 
     private func saveWeight() {
         guard let w = Double(newWeight), w > 0, w < 300 else { return }
-        // Convert from lbs to kg
-        let weightInKg = w / 2.20462
-        let entry = WeightEntry(date: Date(), weight: weightInKg)
+        // Weight is stored in kg
+        let entry = WeightEntry(date: Date(), weight: w)
         modelContext.insert(entry)
         try? modelContext.save()
         showSaved = true
@@ -243,17 +247,17 @@ struct WeightGraphView: View {
     let targetWeight: Double?
 
     private var minWeight: Double {
-        let allWeights = entries.map { $0.weight * 2.20462 }
+        let allWeights = entries.map { $0.weight }
         if let target = targetWeight {
-            return min(allWeights.min() ?? 0, target * 2.20462) - 5
+            return min(allWeights.min() ?? 0, target) - 5
         }
         return (allWeights.min() ?? 0) - 5
     }
 
     private var maxWeight: Double {
-        let allWeights = entries.map { $0.weight * 2.20462 }
+        let allWeights = entries.map { $0.weight }
         if let target = targetWeight {
-            return max(allWeights.max() ?? 200, target * 2.20462) + 5
+            return max(allWeights.max() ?? 200, target) + 5
         }
         return (allWeights.max() ?? 200) + 5
     }
@@ -263,8 +267,7 @@ struct WeightGraphView: View {
             ZStack {
                 // Target line (dashed)
                 if let target = targetWeight {
-                    let targetLbs = target * 2.20462
-                    let yPosition = geometry.size.height * CGFloat(1 - (targetLbs - minWeight) / (maxWeight - minWeight))
+                    let yPosition = geometry.size.height * CGFloat(1 - (target - minWeight) / (maxWeight - minWeight))
 
                     Path { path in
                         path.move(to: CGPoint(x: 0, y: yPosition))
@@ -273,7 +276,7 @@ struct WeightGraphView: View {
                     .stroke(style: StrokeStyle(lineWidth: 2, dash: [8, 4]))
                     .foregroundStyle(AppColors.textMuted)
 
-                    Text("Target: \(Int(targetLbs))")
+                    Text("Target: \(Int(target))")
                         .font(.system(size: 11, weight: .medium))
                         .foregroundStyle(AppColors.textMuted)
                         .position(x: geometry.size.width - 60, y: yPosition - 12)
@@ -283,9 +286,8 @@ struct WeightGraphView: View {
                 if entries.count > 1 {
                     Path { path in
                         for (index, entry) in entries.enumerated() {
-                            let weightLbs = entry.weight * 2.20462
                             let x = geometry.size.width * CGFloat(index) / CGFloat(max(entries.count - 1, 1))
-                            let y = geometry.size.height * CGFloat(1 - (weightLbs - minWeight) / (maxWeight - minWeight))
+                            let y = geometry.size.height * CGFloat(1 - (entry.weight - minWeight) / (maxWeight - minWeight))
 
                             if index == 0 {
                                 path.move(to: CGPoint(x: x, y: y))
@@ -298,9 +300,8 @@ struct WeightGraphView: View {
 
                     // Data points
                     ForEach(Array(entries.enumerated()), id: \.offset) { index, entry in
-                        let weightLbs = entry.weight * 2.20462
                         let x = geometry.size.width * CGFloat(index) / CGFloat(max(entries.count - 1, 1))
-                        let y = geometry.size.height * CGFloat(1 - (weightLbs - minWeight) / (maxWeight - minWeight))
+                        let y = geometry.size.height * CGFloat(1 - (entry.weight - minWeight) / (maxWeight - minWeight))
 
                         Circle()
                             .fill(AppColors.accentTeal)
@@ -323,8 +324,8 @@ struct LogWeightSheet: View {
 
     var body: some View {
         ZStack {
-            AppColors.bgCard
-                .ignoresSafeArea()
+            Color(AppColors.bgCard)
+                .ignoresSafeArea(.all)
 
             VStack(spacing: 24) {
                 // Header
@@ -351,12 +352,12 @@ struct LogWeightSheet: View {
 
                 // Input
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("WEIGHT (LBS)")
+                    Text("WEIGHT (KG)")
                         .font(.system(size: 12, weight: .semibold))
                         .foregroundStyle(AppColors.textMuted)
                         .tracking(0.08 * 12)
 
-                    TextField("182.4", text: $newWeight)
+                    TextField("82.7", text: $newWeight)
                         .font(.system(size: 24, weight: .bold))
                         .foregroundStyle(AppColors.textPrimary)
                         .padding(20)

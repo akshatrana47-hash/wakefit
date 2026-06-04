@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import GoogleSignIn
 
 struct LoginView: View {
 
@@ -17,8 +18,8 @@ struct LoginView: View {
     var body: some View {
         ZStack {
             // Background - deep navy fills entire screen
-            AppColors.bgBase
-                .ignoresSafeArea()
+            Color(AppColors.bgBase)
+                .ignoresSafeArea(.all)
 
             VStack(spacing: 0) {
                 Spacer()
@@ -45,8 +46,8 @@ struct LoginView: View {
 
                     // Google Sign-In Button
                     Button {
-                        // Bypass for development - simulate successful login
-                        viewModel.simulateLogin()
+                        // Real Google Sign-In integration
+                        handleGoogleSignIn()
                     } label: {
                         HStack(spacing: 12) {
                             // Google logo (using SF Symbol as placeholder)
@@ -108,13 +109,16 @@ struct LoginView: View {
             // Show loading indicator while sign-in is in progress
             if viewModel.isLoading {
                 Color.black.opacity(0.5)
-                    .ignoresSafeArea()
+                    .ignoresSafeArea(.all)
 
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: AppColors.accentTeal))
                     .scaleEffect(1.5)
             }
         }
+        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
+        .toolbarBackground(.hidden, for: .navigationBar)
         // MARK: - Error Alert
         // Show alert if sign-in fails
         .alert("Sign-In Error", isPresented: .constant(viewModel.errorMessage != nil)) {
@@ -125,6 +129,57 @@ struct LoginView: View {
             if let error = viewModel.errorMessage {
                 Text(error)
             }
+        }
+    }
+
+    // MARK: - Google Sign-In Handler
+
+    /// Handles Google Sign-In flow using GIDSignIn SDK
+    /// Gets the root view controller, initiates sign-in, and processes the result
+    private func handleGoogleSignIn() {
+        // Step 1: Get the window scene and root view controller
+        guard let windowScene = UIApplication.shared.connectedScenes
+            .first as? UIWindowScene,
+              let rootVC = windowScene.windows.first?.rootViewController
+        else {
+            viewModel.errorMessage = "Unable to find root view controller"
+            return
+        }
+
+        // Step 2: Show loading state
+        viewModel.isLoading = true
+
+        // Step 3: Initiate Google Sign-In
+        GIDSignIn.sharedInstance.signIn(withPresenting: rootVC) { result, error in
+            // Step 4: Hide loading state
+            viewModel.isLoading = false
+
+            // Step 5: Handle errors
+            if let error = error {
+                viewModel.errorMessage = error.localizedDescription
+                return
+            }
+
+            // Step 6: Extract user data from successful sign-in
+            guard let user = result?.user,
+                  let profile = user.profile else {
+                viewModel.errorMessage = "Failed to get user profile"
+                return
+            }
+
+            // Step 7: Get user email and name
+            let email = profile.email
+            let name = profile.givenName ?? "User"
+
+            // Step 8: Save authentication state to UserDefaults
+            UserDefaults.standard.set(true, forKey: "isLoggedIn")
+            UserDefaults.standard.set(email, forKey: "userEmail")
+            UserDefaults.standard.set(name, forKey: "userName")
+            UserDefaults.standard.set(false, forKey: "hasCompletedSetup")
+
+            // Step 9: Update view model to trigger navigation
+            viewModel.isAuthenticated = true
+            viewModel.needsProfileSetup = true
         }
     }
 }

@@ -23,6 +23,9 @@ struct FoodLogView: View {
     @State private var showAddSheet: Bool = false
     @State private var activeTimeBlock: String = ""
     @State private var expandedSections: Set<String> = ["morning", "afternoon", "evening"]
+    @State private var editingEntry: FoodLog? = nil
+    @State private var editText: String = ""
+    @State private var showEditSheet: Bool = false
 
     // MARK: - Computed Properties
 
@@ -47,8 +50,8 @@ struct FoodLogView: View {
 
     var body: some View {
         ZStack {
-            AppColors.bgBase
-                .ignoresSafeArea()
+            Color(AppColors.bgBase)
+                .ignoresSafeArea(.all)
 
             VStack(spacing: 0) {
                 // Header
@@ -125,6 +128,11 @@ struct FoodLogView: View {
                             },
                             onDelete: { log in
                                 deleteEntry(log)
+                            },
+                            onEdit: { log in
+                                editingEntry = log
+                                editText = log.foodText
+                                showEditSheet = true
                             }
                         )
 
@@ -143,6 +151,11 @@ struct FoodLogView: View {
                             },
                             onDelete: { log in
                                 deleteEntry(log)
+                            },
+                            onEdit: { log in
+                                editingEntry = log
+                                editText = log.foodText
+                                showEditSheet = true
                             }
                         )
 
@@ -161,6 +174,11 @@ struct FoodLogView: View {
                             },
                             onDelete: { log in
                                 deleteEntry(log)
+                            },
+                            onEdit: { log in
+                                editingEntry = log
+                                editText = log.foodText
+                                showEditSheet = true
                             }
                         )
 
@@ -173,6 +191,7 @@ struct FoodLogView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
         .sheet(isPresented: $showAddSheet) {
             AddFoodItemView(
                 timeBlock: activeTimeBlock,
@@ -180,6 +199,16 @@ struct FoodLogView: View {
                     saveFoodEntry(text: foodText, timeBlock: activeTimeBlock)
                 }
             )
+        }
+        .sheet(isPresented: $showEditSheet) {
+            if let entry = editingEntry {
+                AddFoodItemView(
+                    timeBlock: entry.timeBlock,
+                    onSave: { foodText in
+                        saveEdit(entry: entry, newText: foodText)
+                    }
+                )
+            }
         }
     }
 
@@ -213,6 +242,14 @@ struct FoodLogView: View {
         try? modelContext.save()
     }
 
+    /// Save edited entry
+    private func saveEdit(entry: FoodLog, newText: String) {
+        guard !newText.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+        entry.foodText = newText
+        try? modelContext.save()
+        showEditSheet = false
+    }
+
     /// Format date as "Oct 26, 2023"
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
@@ -231,6 +268,7 @@ struct TimeBlockSection: View {
     let onToggle: () -> Void
     let onAddFood: () -> Void
     let onDelete: (FoodLog) -> Void
+    let onEdit: (FoodLog) -> Void
 
     private var entryCount: Int {
         logs.count
@@ -301,6 +339,8 @@ struct TimeBlockSection: View {
                         ForEach(logs, id: \.id) { log in
                             FoodEntryRow(log: log, onDelete: {
                                 onDelete(log)
+                            }, onEdit: {
+                                onEdit(log)
                             })
                         }
                         .padding(.horizontal, 16)
@@ -346,6 +386,7 @@ struct TimeBlockSection: View {
 struct FoodEntryRow: View {
     let log: FoodLog
     let onDelete: () -> Void
+    let onEdit: () -> Void
 
     private func formatTime(_ date: Date) -> String {
         let formatter = DateFormatter()
@@ -370,12 +411,19 @@ struct FoodEntryRow: View {
         .padding(14)
         .background(AppColors.bgBase)
         .cornerRadius(12)
-        .contextMenu {
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
             Button(role: .destructive) {
                 onDelete()
             } label: {
                 Label("Delete", systemImage: "trash")
             }
+
+            Button {
+                onEdit()
+            } label: {
+                Label("Edit", systemImage: "pencil")
+            }
+            .tint(AppColors.accentTeal)
         }
     }
 }

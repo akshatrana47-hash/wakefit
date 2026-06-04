@@ -6,14 +6,37 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		ACF531A62FD120F700E5FC78 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = ACF531A52FD120F700E5FC78 /* GoogleSignIn */; };
+		ACF531A82FD120F700E5FC78 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = ACF531A72FD120F700E5FC78 /* GoogleSignInSwift */; };
+		ACF532DE2FD12A0000E5FC78 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = ACF531A52FD120F700E5FC78 /* GoogleSignIn */; };
+		ACF532DF2FD12A0000E5FC78 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = ACF531A72FD120F700E5FC78 /* GoogleSignInSwift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		ACF532D92FD1292100E5FC78 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ACF530A62FD0A22C00E5FC78 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ACF530AD2FD0A22C00E5FC78;
+			remoteInfo = WakeFit;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		ACF530AE2FD0A22C00E5FC78 /* WakeFit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WakeFit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACF532D32FD1292100E5FC78 /* UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		ACF530B02FD0A22C00E5FC78 /* WakeFit */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = WakeFit;
+			sourceTree = "<group>";
+		};
+		ACF532D42FD1292100E5FC78 /* UITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = UITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -23,6 +46,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACF531A62FD120F700E5FC78 /* GoogleSignIn in Frameworks */,
+				ACF531A82FD120F700E5FC78 /* GoogleSignInSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ACF532D02FD1292100E5FC78 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ACF532DE2FD12A0000E5FC78 /* GoogleSignIn in Frameworks */,
+				ACF532DF2FD12A0000E5FC78 /* GoogleSignInSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -33,6 +67,7 @@
 			isa = PBXGroup;
 			children = (
 				ACF530B02FD0A22C00E5FC78 /* WakeFit */,
+				ACF532D42FD1292100E5FC78 /* UITests */,
 				ACF530AF2FD0A22C00E5FC78 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				ACF530AE2FD0A22C00E5FC78 /* WakeFit.app */,
+				ACF532D32FD1292100E5FC78 /* UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -65,10 +101,37 @@
 			);
 			name = WakeFit;
 			packageProductDependencies = (
+				ACF531A52FD120F700E5FC78 /* GoogleSignIn */,
+				ACF531A72FD120F700E5FC78 /* GoogleSignInSwift */,
 			);
 			productName = WakeFit;
 			productReference = ACF530AE2FD0A22C00E5FC78 /* WakeFit.app */;
 			productType = "com.apple.product-type.application";
+		};
+		ACF532D22FD1292100E5FC78 /* UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ACF532DB2FD1292100E5FC78 /* Build configuration list for PBXNativeTarget "UITests" */;
+			buildPhases = (
+				ACF532CF2FD1292100E5FC78 /* Sources */,
+				ACF532D02FD1292100E5FC78 /* Frameworks */,
+				ACF532D12FD1292100E5FC78 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ACF532DA2FD1292100E5FC78 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				ACF532D42FD1292100E5FC78 /* UITests */,
+			);
+			name = UITests;
+			packageProductDependencies = (
+				ACF531A52FD120F700E5FC78 /* GoogleSignIn */,
+				ACF531A72FD120F700E5FC78 /* GoogleSignInSwift */,
+			);
+			productName = UITests;
+			productReference = ACF532D32FD1292100E5FC78 /* UITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -83,6 +146,10 @@
 					ACF530AD2FD0A22C00E5FC78 = {
 						CreatedOnToolsVersion = 26.5;
 					};
+					ACF532D22FD1292100E5FC78 = {
+						CreatedOnToolsVersion = 26.5;
+						TestTargetID = ACF530AD2FD0A22C00E5FC78;
+					};
 				};
 			};
 			buildConfigurationList = ACF530A92FD0A22C00E5FC78 /* Build configuration list for PBXProject "WakeFit" */;
@@ -94,18 +161,29 @@
 			);
 			mainGroup = ACF530A52FD0A22C00E5FC78;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				ACF531A42FD120F700E5FC78 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = ACF530AF2FD0A22C00E5FC78 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				ACF530AD2FD0A22C00E5FC78 /* WakeFit */,
+				ACF532D22FD1292100E5FC78 /* UITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		ACF530AC2FD0A22C00E5FC78 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ACF532D12FD1292100E5FC78 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +200,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		ACF532CF2FD1292100E5FC78 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		ACF532DA2FD1292100E5FC78 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ACF530AD2FD0A22C00E5FC78 /* WakeFit */;
+			targetProxy = ACF532D92FD1292100E5FC78 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		ACF530B92FD0A22E00E5FC78 /* Debug */ = {
@@ -246,10 +339,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K4SF7SQF6D;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -260,8 +355,6 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "WakeFit uses your microphone to log food entries by voice.";
-				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "WakeFit uses speech recognition to convert your voice into food log entries.";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -290,10 +383,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K4SF7SQF6D;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -304,8 +399,6 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "WakeFit uses your microphone to log food entries by voice.";
-				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "WakeFit uses speech recognition to convert your voice into food log entries.";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -324,6 +417,52 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
 				XROS_DEPLOYMENT_TARGET = 26.5;
+			};
+			name = Release;
+		};
+		ACF532DC2FD1292100E5FC78 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Akshat.UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WakeFit;
+			};
+			name = Debug;
+		};
+		ACF532DD2FD1292100E5FC78 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K4SF7SQF6D;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Akshat.UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WakeFit;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -348,7 +487,40 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		ACF532DB2FD1292100E5FC78 /* Build configuration list for PBXNativeTarget "UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ACF532DC2FD1292100E5FC78 /* Debug */,
+				ACF532DD2FD1292100E5FC78 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		ACF531A42FD120F700E5FC78 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		ACF531A52FD120F700E5FC78 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ACF531A42FD120F700E5FC78 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		ACF531A72FD120F700E5FC78 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ACF531A42FD120F700E5FC78 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = ACF530A62FD0A22C00E5FC78 /* Project object */;
 }

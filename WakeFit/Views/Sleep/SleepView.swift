@@ -49,39 +49,28 @@ struct SleepView: View {
 
     var body: some View {
         ZStack {
-            AppColors.bgBase
-                .ignoresSafeArea()
+            Color(AppColors.bgBase)
+                .ignoresSafeArea(.all)
 
             ScrollView {
                 VStack(spacing: 24) {
-                    // Header
+                    // Back Button
                     HStack {
                         Button {
                             dismiss()
                         } label: {
-                            Image(systemName: "person.circle.fill")
-                                .font(.system(size: 32))
-                                .foregroundStyle(AppColors.textMuted)
+                            HStack(spacing: 6) {
+                                Image(systemName: "chevron.left")
+                                    .font(.system(size: 16, weight: .semibold))
+                                Text("Back")
+                                    .font(.system(size: 16, weight: .semibold))
+                            }
+                            .foregroundStyle(AppColors.accentTeal)
                         }
-
                         Spacer()
-
-                        Text("Discipline")
-                            .font(.system(size: 20, weight: .semibold))
-                            .foregroundStyle(AppColors.textPrimary)
-
-                        Spacer()
-
-                        Button {
-                            // Settings
-                        } label: {
-                            Image(systemName: "gearshape.fill")
-                                .font(.system(size: 24))
-                                .foregroundStyle(AppColors.accentTeal)
-                        }
                     }
                     .padding(.horizontal, 20)
-                    .padding(.top, 12)
+                    .padding(.top, 16)
 
                     // Title
                     VStack(alignment: .leading, spacing: 8) {
@@ -211,6 +200,7 @@ struct SleepView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
         .onAppear {
             // Pre-populate if already logged today
             if let entry = todayEntry {

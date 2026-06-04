@@ -22,6 +22,7 @@ struct AIAnalysisView: View {
 
     @State private var isAnalyzing: Bool = false
     @State private var errorMessage: String? = nil
+    @State private var aiService = AIAnalysisService()
 
     // MARK: - Computed Properties
 
@@ -52,39 +53,28 @@ struct AIAnalysisView: View {
 
     var body: some View {
         ZStack {
-            AppColors.bgBase
-                .ignoresSafeArea()
+            Color(AppColors.bgBase)
+                .ignoresSafeArea(.all)
 
             ScrollView {
                 VStack(spacing: 24) {
-                    // Header
+                    // Back Button
                     HStack {
                         Button {
                             dismiss()
                         } label: {
-                            Image(systemName: "person.circle.fill")
-                                .font(.system(size: 32))
-                                .foregroundStyle(AppColors.textMuted)
+                            HStack(spacing: 6) {
+                                Image(systemName: "chevron.left")
+                                    .font(.system(size: 16, weight: .semibold))
+                                Text("Back")
+                                    .font(.system(size: 16, weight: .semibold))
+                            }
+                            .foregroundStyle(AppColors.accentTeal)
                         }
-
                         Spacer()
-
-                        Text("Discipline")
-                            .font(.system(size: 20, weight: .semibold))
-                            .foregroundStyle(AppColors.textPrimary)
-
-                        Spacer()
-
-                        Button {
-                            // Settings
-                        } label: {
-                            Image(systemName: "gearshape.fill")
-                                .font(.system(size: 24))
-                                .foregroundStyle(AppColors.accentTeal)
-                        }
                     }
                     .padding(.horizontal, 20)
-                    .padding(.top, 12)
+                    .padding(.top, 16)
 
                     // Date
                     Text(formatDate(Date()))
@@ -113,6 +103,31 @@ struct AIAnalysisView: View {
                         }
                     }
                     .padding(.horizontal, 20)
+
+                    // Error message if API call failed
+                    if let error = errorMessage {
+                        HStack(spacing: 12) {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .foregroundStyle(AppColors.danger)
+
+                            Text(error)
+                                .font(.system(size: 14))
+                                .foregroundStyle(AppColors.textPrimary)
+
+                            Spacer()
+
+                            Button {
+                                errorMessage = nil
+                            } label: {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundStyle(AppColors.textMuted)
+                            }
+                        }
+                        .padding(16)
+                        .background(AppColors.danger.opacity(0.15))
+                        .cornerRadius(12)
+                        .padding(.horizontal, 20)
+                    }
 
                     // Content based on state
                     if isAnalyzing {
@@ -228,6 +243,8 @@ struct AIAnalysisView: View {
             }
             .padding(.horizontal, 20)
         }
+        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
     }
 
     // MARK: - Loading State
@@ -367,32 +384,40 @@ struct AIAnalysisView: View {
 
     // MARK: - Functions
 
-    /// Analyze day with AI (stubbed for now)
+    /// Analyzes today's food logs using OpenAI GPT-4o
+    /// Sends all food entries to the API, parses the response, and saves to SwiftData
     private func analyzeDay() async {
         isAnalyzing = true
+        errorMessage = nil
 
-        // Simulate API call delay
-        try? await Task.sleep(nanoseconds: 2_000_000_000) // 2 seconds
+        do {
+            // Step 1: Call OpenAI API with today's food logs
+            let response = try await aiService.analyzeDay(foodText: todayFoodText)
 
-        // TODO: Replace with actual OpenAI API call
-        // For now, create mock analysis
-        let mockAnalysis = AIAnalysis(
-            date: Calendar.current.startOfDay(for: Date()),
-            estimatedCalories: 2100,
-            estimatedProtein: 85,
-            riskAreas: "Elevated sodium intake detected post-meridian.\nSleep latency extended beyond acceptable standard.",
-            disciplineStatus: "Disciplined",
-            coachDiagnosis: "Output remains within optimal parameters. Caloric intake is balanced, and protein synthesis targets are met. Maintain current trajectory. Hydration levels require monitoring in the evening phase. Stay the course.",
-            tomorrowAdvice: "Focus on reducing sodium intake and aim for earlier bedtime."
-        )
+            // Step 2: Convert API response to our SwiftData model
+            let analysis = AIAnalysis(
+                date: Calendar.current.startOfDay(for: Date()),
+                estimatedCalories: response.estimatedCalories,
+                estimatedProtein: response.estimatedProtein,
+                riskAreas: response.riskAreas,
+                disciplineStatus: response.disciplineStatus,
+                coachDiagnosis: response.coachDiagnosis,
+                tomorrowAdvice: response.tomorrowAdvice
+            )
 
-        // Save to SwiftData
-        if let existing = todayAnalysis {
-            // Update existing
-            modelContext.delete(existing)
+            // Step 3: Delete old analysis if it exists (one analysis per day)
+            if let existing = todayAnalysis {
+                modelContext.delete(existing)
+            }
+
+            // Step 4: Save new analysis to SwiftData
+            modelContext.insert(analysis)
+            try? modelContext.save()
+
+        } catch {
+            // Show error message to user if API call fails
+            errorMessage = error.localizedDescription
         }
-        modelContext.insert(mockAnalysis)
-        try? modelContext.save()
 
         isAnalyzing = false
     }

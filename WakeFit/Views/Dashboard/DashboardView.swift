@@ -16,6 +16,7 @@ struct DashboardView: View {
     @Query var wakeUpEntries: [WakeUpEntry]    // All wake-up logs
     @Query var foodLogs: [FoodLog]             // All food logs
     @Query var weightEntries: [WeightEntry]    // All weight entries
+    @Query var sleepEntries: [SleepEntry]      // All sleep logs
     @Query var aiAnalyses: [AIAnalysis]        // All AI analyses
     @Query var users: [User]                   // User profile
 
@@ -34,6 +35,11 @@ struct DashboardView: View {
     /// Today's wake-up entry
     private var todayWakeUp: WakeUpEntry? {
         wakeUpEntries.first { Calendar.current.isDateInToday($0.date) }
+    }
+
+    /// Today's sleep entry
+    private var todaySleep: SleepEntry? {
+        sleepEntries.first { Calendar.current.isDateInToday($0.date) }
     }
 
     /// Today's food logs
@@ -68,17 +74,23 @@ struct DashboardView: View {
 
     /// Days since user started
     private var daysSinceStart: Int {
-        guard let user = users.first else { return 0 }
-        return Calendar.current.dateComponents([.day], from: user.startDate, to: Date()).day ?? 0
+        guard let user = users.first else { return 1 }
+        let calendar = Calendar.current
+        let components = calendar.dateComponents(
+            [.day],
+            from: calendar.startOfDay(for: user.startDate),
+            to: calendar.startOfDay(for: Date())
+        )
+        return max(1, components.day ?? 1)
     }
 
     /// Discipline score (0-100)
     private var disciplineScore: Int {
         var score = 0
-        if todayWakeUp != nil { score += 34 }    // Wake-up logged
-        if morningLogged || afternoonLogged || eveningLogged { score += 33 } // Food logged
-        // Sleep check would add 33 — for now based on above two
-        return min(score + 33, 100) // Base 33 for showing up
+        if todayWakeUp != nil { score += 34 }
+        if morningLogged || afternoonLogged || eveningLogged { score += 33 }
+        if todaySleep?.sleptOnTime == true { score += 33 }
+        return score
     }
 
     /// User's first name
@@ -109,8 +121,8 @@ struct DashboardView: View {
         NavigationStack {
             ZStack(alignment: .bottom) {
                 // Background
-                AppColors.bgBase
-                    .ignoresSafeArea()
+                Color(AppColors.bgBase)
+                    .ignoresSafeArea(.all)
 
                 // Main Content - switch based on selected tab
                 Group {
@@ -131,6 +143,10 @@ struct DashboardView: View {
                 // MARK: - Bottom Tab Bar
                 BottomTabBar(selectedTab: $selectedTab)
             }
+            .navigationBarBackButtonHidden(true)
+            .toolbar(.hidden, for: .navigationBar)
+            .toolbarBackground(.hidden, for: .navigationBar)
+            .toolbarColorScheme(.dark, for: .navigationBar)
         }
     }
 
@@ -160,9 +176,7 @@ struct DashboardView: View {
                     Spacer()
 
                     // Settings button (right)
-                    Button {
-                        // TODO: Navigate to settings
-                    } label: {
+                    NavigationLink(destination: ProfileView()) {
                         Image(systemName: "gearshape.fill")
                             .font(.system(size: 24))
                             .foregroundStyle(AppColors.accentTeal)
@@ -361,7 +375,7 @@ struct FoodLogCard: View {
             }
 
             // Time block badges
-            HStack(spacing: 12) {
+            HStack(spacing: 8) {
                 TimeBlockBadge(label: "Morning", isLogged: morningLogged)
                 TimeBlockBadge(label: "Afternoon", isLogged: afternoonLogged)
                 TimeBlockBadge(label: "Evening", isLogged: eveningLogged)
@@ -386,13 +400,15 @@ struct TimeBlockBadge: View {
     var body: some View {
         HStack(spacing: 6) {
             Text(label)
-                .font(.system(size: 14, weight: .medium))
+                .font(.system(size: 13, weight: .medium))
+                .lineLimit(1)
+                .fixedSize()
 
             Image(systemName: isLogged ? "checkmark" : "xmark")
-                .font(.system(size: 12, weight: .bold))
+                .font(.system(size: 11, weight: .bold))
         }
         .foregroundStyle(isLogged ? AppColors.accentTeal : AppColors.textMuted)
-        .padding(.horizontal, 12)
+        .padding(.horizontal, 10)
         .padding(.vertical, 8)
         .background(AppColors.bgBase)
         .cornerRadius(8)

@@ -21,6 +21,9 @@ struct WakeUpView: View {
 
     @State private var selectedTime: Date = Date()
     @State private var showSaved: Bool = false
+    @State private var editingEntry: WakeUpEntry? = nil
+    @State private var editTime: Date = Date()
+    @State private var showEditSheet: Bool = false
 
     // MARK: - Computed Properties
 
@@ -31,11 +34,27 @@ struct WakeUpView: View {
 
     var body: some View {
         ZStack {
-            AppColors.bgBase
-                .ignoresSafeArea()
+            Color(AppColors.bgBase)
+                .ignoresSafeArea(.all)
 
             ScrollView {
                 VStack(spacing: 24) {
+                    // Back Button
+                    HStack {
+                        Button {
+                            dismiss()
+                        } label: {
+                            HStack(spacing: 6) {
+                                Image(systemName: "chevron.left")
+                                    .font(.system(size: 16, weight: .semibold))
+                                Text("Back")
+                                    .font(.system(size: 16, weight: .semibold))
+                            }
+                            .foregroundStyle(AppColors.accentTeal)
+                        }
+                        Spacer()
+                    }
+
                     // Title
                     Text("Wake-Up Log")
                         .font(.system(size: 32, weight: .bold))
@@ -164,6 +183,22 @@ struct WakeUpView: View {
                                     .padding(16)
                                     .background(AppColors.bgBase)
                                     .cornerRadius(12)
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                        Button(role: .destructive) {
+                                            deleteEntry(entry)
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+
+                                        Button {
+                                            editingEntry = entry
+                                            editTime = entry.wakeUpTime
+                                            showEditSheet = true
+                                        } label: {
+                                            Label("Edit", systemImage: "pencil")
+                                        }
+                                        .tint(AppColors.accentTeal)
+                                    }
                                 }
                             }
                         }
@@ -184,17 +219,16 @@ struct WakeUpView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button {
-                    dismiss()
-                } label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: "chevron.left")
-                        Text("Back")
+        .toolbar(.hidden, for: .navigationBar)
+        .sheet(isPresented: $showEditSheet) {
+            if let entry = editingEntry {
+                EditWakeUpSheet(
+                    entry: entry,
+                    editTime: $editTime,
+                    onSave: {
+                        saveEdit(entry: entry, newTime: editTime)
                     }
-                    .foregroundStyle(AppColors.accentTeal)
-                }
+                )
             }
         }
     }
@@ -228,6 +262,19 @@ struct WakeUpView: View {
         }
     }
 
+    /// Delete entry
+    private func deleteEntry(_ entry: WakeUpEntry) {
+        modelContext.delete(entry)
+        try? modelContext.save()
+    }
+
+    /// Save edited entry
+    private func saveEdit(entry: WakeUpEntry, newTime: Date) {
+        entry.wakeUpTime = newTime
+        try? modelContext.save()
+        showEditSheet = false
+    }
+
     /// Formats date as "Mon, Oct 24"
     private func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
@@ -240,6 +287,92 @@ struct WakeUpView: View {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
         return formatter.string(from: time)
+    }
+}
+
+// MARK: - Edit Wake-Up Sheet
+
+struct EditWakeUpSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    let entry: WakeUpEntry
+    @Binding var editTime: Date
+    let onSave: () -> Void
+
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                Color(AppColors.bgBase)
+                    .ignoresSafeArea(.all)
+
+                VStack(spacing: 24) {
+                    // Date Info
+                    VStack(spacing: 8) {
+                        Text("EDITING WAKE-UP TIME")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundStyle(AppColors.textMuted)
+                            .tracking(0.08 * 12)
+
+                        Text(formatDate(entry.date))
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundStyle(AppColors.textPrimary)
+                    }
+                    .padding(.top, 20)
+
+                    // Time Picker
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("SELECT TIME")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundStyle(AppColors.textMuted)
+                            .tracking(0.08 * 12)
+
+                        DatePicker("", selection: $editTime, displayedComponents: [.hourAndMinute])
+                            .datePickerStyle(.wheel)
+                            .labelsHidden()
+                    }
+                    .padding(20)
+                    .background(AppColors.bgCard)
+                    .cornerRadius(16)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(AppColors.cardBorder, lineWidth: 1)
+                    )
+
+                    Spacer()
+
+                    // Save Button
+                    Button {
+                        onSave()
+                        dismiss()
+                    } label: {
+                        Text("Save Changes")
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundStyle(.black)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 56)
+                            .background(AppColors.accentTeal)
+                            .cornerRadius(16)
+                    }
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 20)
+            }
+            .navigationTitle("Edit Wake-Up")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                    .foregroundStyle(AppColors.accentTeal)
+                }
+            }
+        }
+    }
+
+    private func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE, MMM dd, yyyy"
+        return formatter.string(from: date)
     }
 }
 

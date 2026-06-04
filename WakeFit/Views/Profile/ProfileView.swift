@@ -26,6 +26,8 @@ struct ProfileView: View {
     @State private var notificationsEnabled: Bool = UserDefaults.standard.bool(forKey: "notificationsEnabled")
     @State private var faceIDEnabled: Bool = UserDefaults.standard.bool(forKey: "faceIDEnabled")
     @State private var showSignOutAlert: Bool = false
+    @State private var showEditSheet: Bool = false
+    @State private var editName: String = ""
 
     // MARK: - Computed Properties
 
@@ -71,8 +73,8 @@ struct ProfileView: View {
 
     var body: some View {
         ZStack {
-            AppColors.bgBase
-                .ignoresSafeArea()
+            Color(AppColors.bgBase)
+                .ignoresSafeArea(.all)
 
             ScrollView {
                 VStack(spacing: 32) {
@@ -122,7 +124,8 @@ struct ProfileView: View {
 
                             // Edit button
                             Button {
-                                // TODO: Edit profile
+                                editName = userName
+                                showEditSheet = true
                             } label: {
                                 Image(systemName: "pencil")
                                     .font(.system(size: 14, weight: .bold))
@@ -301,6 +304,7 @@ struct ProfileView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
         .alert("Sign Out", isPresented: $showSignOutAlert) {
             Button("Cancel", role: .cancel) { }
             Button("Sign Out", role: .destructive) {
@@ -309,22 +313,40 @@ struct ProfileView: View {
         } message: {
             Text("Are you sure you want to sign out? You'll need to log in again.")
         }
+        .sheet(isPresented: $showEditSheet) {
+            EditProfileSheet(
+                userName: $editName,
+                onSave: {
+                    saveProfileChanges()
+                }
+            )
+        }
     }
 
     // MARK: - Functions
 
     private func signOut() {
-        // Clear UserDefaults
-        UserDefaults.standard.set(false, forKey: "isLoggedIn")
-        UserDefaults.standard.set(false, forKey: "hasCompletedSetup")
-        UserDefaults.standard.removeObject(forKey: "userName")
-        UserDefaults.standard.removeObject(forKey: "userEmail")
+        // Clear ALL UserDefaults
+        if let bundleID = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: bundleID)
+            UserDefaults.standard.synchronize()
+        }
 
         // Cancel notifications
         NotificationManager.shared.cancelAllNotifications()
 
         // Navigate back to login (handled by AuthViewModel)
         dismiss()
+    }
+
+    /// Save profile changes
+    private func saveProfileChanges() {
+        guard !editName.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+        if let user = user {
+            user.name = editName
+            try? modelContext.save()
+        }
+        showEditSheet = false
     }
 }
 
@@ -397,6 +419,94 @@ struct SettingsRow: View {
             .padding(.vertical, 16)
         }
         .buttonStyle(PlainButtonStyle())
+    }
+}
+
+// MARK: - Edit Profile Sheet
+
+struct EditProfileSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    @Binding var userName: String
+    let onSave: () -> Void
+
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                Color(AppColors.bgBase)
+                    .ignoresSafeArea(.all)
+
+                VStack(spacing: 24) {
+                    // Header
+                    VStack(spacing: 8) {
+                        Text("EDIT PROFILE")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundStyle(AppColors.textMuted)
+                            .tracking(0.08 * 12)
+
+                        Text("Update your profile information")
+                            .font(.system(size: 14))
+                            .foregroundStyle(AppColors.textSecondary)
+                    }
+                    .padding(.top, 20)
+
+                    // Name Field
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("NAME")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundStyle(AppColors.textMuted)
+                            .tracking(0.08 * 12)
+
+                        TextField("Enter your name", text: $userName)
+                            .font(.system(size: 16))
+                            .foregroundStyle(AppColors.textPrimary)
+                            .padding(16)
+                            .background(AppColors.bgBase)
+                            .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(AppColors.cardBorder, lineWidth: 1)
+                            )
+                    }
+                    .padding(20)
+                    .background(AppColors.bgCard)
+                    .cornerRadius(16)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(AppColors.cardBorder, lineWidth: 1)
+                    )
+
+                    Spacer()
+
+                    // Save Button
+                    Button {
+                        onSave()
+                        dismiss()
+                    } label: {
+                        Text("Save Changes")
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundStyle(.black)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 56)
+                            .background(AppColors.accentTeal)
+                            .cornerRadius(16)
+                    }
+                    .disabled(userName.trimmingCharacters(in: .whitespaces).isEmpty)
+                    .opacity(userName.trimmingCharacters(in: .whitespaces).isEmpty ? 0.5 : 1.0)
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 20)
+            }
+            .navigationTitle("Edit Profile")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                    .foregroundStyle(AppColors.accentTeal)
+                }
+            }
+        }
     }
 }
 

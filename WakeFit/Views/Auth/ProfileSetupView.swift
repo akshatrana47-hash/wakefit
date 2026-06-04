@@ -36,8 +36,8 @@ struct ProfileSetupView: View {
     var body: some View {
         ZStack {
             // Background
-            AppColors.bgBase
-                .ignoresSafeArea()
+            Color(AppColors.bgBase)
+                .ignoresSafeArea(.all)
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 32) {
@@ -67,7 +67,7 @@ struct ProfileSetupView: View {
                         }
                         .frame(height: 4)
                     }
-                    .padding(.top, 20)
+                    .padding(.top, 60)
 
                     // MARK: - Title & Subtitle
 
@@ -133,6 +133,7 @@ struct ProfileSetupView: View {
                                         .frame(width: 24)
 
                                     TextField("85", text: $startingWeight)
+                                        .keyboardType(.decimalPad)
                                         .font(.system(size: 18, weight: .regular))
                                         .foregroundStyle(AppColors.textPrimary)
                                 }
@@ -160,6 +161,7 @@ struct ProfileSetupView: View {
                                         .frame(width: 24)
 
                                     TextField("75", text: $targetWeight)
+                                        .keyboardType(.decimalPad)
                                         .font(.system(size: 18, weight: .regular))
                                         .foregroundStyle(AppColors.textPrimary)
                                 }
@@ -188,6 +190,7 @@ struct ProfileSetupView: View {
                                     .frame(width: 24)
 
                                 TextField("180", text: $height)
+                                    .keyboardType(.decimalPad)
                                     .font(.system(size: 18, weight: .regular))
                                     .foregroundStyle(AppColors.textPrimary)
                             }
@@ -228,6 +231,9 @@ struct ProfileSetupView: View {
                 .padding(.horizontal, 20)
             }
         }
+        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
+        .toolbarBackground(.hidden, for: .navigationBar)
         .alert("Incomplete Information", isPresented: $showValidationError) {
             Button("OK", role: .cancel) { }
         } message: {
