@@ -110,7 +110,10 @@ final class NotificationManager {
         let content = UNMutableNotificationContent()
         content.title = title
         content.body = body
+        // Use default sound - iOS will play the device's notification tone
         content.sound = .default
+        // Add badge to make notification more noticeable
+        content.badge = 1
 
         var dateComponents = DateComponents()
         dateComponents.hour = hour
@@ -132,6 +135,7 @@ final class NotificationManager {
         content.title = "Weight Check"
         content.body = "Time to log your weight. Track your progress."
         content.sound = .default
+        content.badge = 1
 
         // Create 5 separate notifications for next 30 days (every 5 days)
         let calendar = Calendar.current
@@ -165,6 +169,27 @@ final class NotificationManager {
         UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
             DispatchQueue.main.async {
                 completion(requests.count)
+            }
+        }
+    }
+
+    /// Send a test notification immediately (for testing sound)
+    func sendTestNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "WakeFit Test"
+        content.body = "If you hear a sound, notifications are working! 🔔"
+        content.sound = .default
+        content.badge = 1
+
+        // Trigger in 2 seconds
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
+        let request = UNNotificationRequest(identifier: "test-notification", content: content, trigger: trigger)
+
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Error sending test notification: \(error.localizedDescription)")
+            } else {
+                print("✅ Test notification scheduled - you should hear it in 2 seconds")
             }
         }
     }

@@ -236,6 +236,24 @@ struct ProfileView: View {
                                     // TODO: Edit target weight
                                 }
                             )
+
+                            Divider()
+                                .background(AppColors.cardBorder)
+                                .padding(.horizontal, 20)
+
+                            // Test Notification
+                            SettingsRow(
+                                icon: "bell.badge.fill",
+                                title: "Test Notification Sound",
+                                trailing: AnyView(
+                                    Image(systemName: "chevron.right")
+                                        .font(.system(size: 14))
+                                        .foregroundStyle(AppColors.textMuted)
+                                ),
+                                action: {
+                                    testNotificationSound()
+                                }
+                            )
                         }
                         .padding(.vertical, 8)
                         .background(AppColors.bgCard)
@@ -347,6 +365,13 @@ struct ProfileView: View {
             try? modelContext.save()
         }
         showEditSheet = false
+    }
+
+    /// Test notification sound
+    private func testNotificationSound() {
+        NotificationManager.shared.sendTestNotification()
+        // Show confirmation (optional - the notification itself will confirm)
+        print("Test notification sent - check your device in 2 seconds!")
     }
 }
 
